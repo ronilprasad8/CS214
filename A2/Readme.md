@@ -14,7 +14,7 @@ Date: 26 September 2025
 
                      Overview 
 
-A comprehensive and extensible Java application for solving the Traveling Salesman Problem (TSP) using various algorithms. This project features a command-line interface (CLI) for user interaction, real-time performance visualization, and a robust benchmarking suite. It is designed with a strong emphasis on modern Object-Oriented principles, including the Strategy pattern, SOLID principles, and advanced concurrency.
+A comprehensive and extensible Java application for solving the Traveling Salesman Problem (TSP) using various algorithms. This project features a command-line interface (CLI) for user interaction[...]
 
                     Table of Content
 - Features
@@ -63,103 +63,78 @@ Correctly calculates distances for both Euclidean (`EUC_2D`) and Geographical (`
 
                     Core Concepts
 
-Interface-Based Design: The `TSPSolver` interface defines a clear contract for all solving algorithms, allowing them to be used interchangeably throughout the application (Liskov Substitution Principle).
+Interface-Based Design: The `TSPSolver` interface defines a clear contract for all solving algorithms, allowing them to be used interchangeably throughout the application (Liskov Substitution Prin[...]
 
-Inheritance & Code Reuse: The `AbstractTSPSolver` class provides shared boilerplate logic, such as Number of Function Calls (NFC) tracking and progress reporting, to all concrete solver implementations.
+Inheritance & Code Reuse: The `AbstractTSPSolver` class provides shared boilerplate logic, such as Number of Function Calls (NFC) tracking and progress reporting, to all concrete solver implementa[...]
 
-Strategy Pattern: `TSPGA` is decoupled from its specific component algorithms. New selection, crossover, or mutation techniques can be added by simply creating a new class that implements the relevant strategy interface, without modifying the `TSPGA` class itself (Open/Closed Principle).
+Strategy Pattern: `TSPGA` is decoupled from its specific component algorithms. New selection, crossover, or mutation techniques can be added by simply creating a new class that implements the rele[...]
 
-Concurrency & Parallelism: The application makes extensive use of Java's `ExecutorService` to manage thread pools for performance-critical tasks, such as running benchmarks and calculating fitness in the GA. This demonstrates a modern approach to leveraging multi-core hardware.
+Concurrency & Parallelism: The application makes extensive use of Java's `ExecutorService` to manage thread pools for performance-critical tasks, such as running benchmarks and calculating fitness[...]
 
-Observer Pattern (via Callbacks): The `RealTimeChart` "observes" the `TSPSolver` by passing a `Consumer` callback. The solver reports its progress by invoking this callback, decoupling the algorithm's logic from the GUI.
+Observer Pattern (via Callbacks): The `RealTimeChart` "observes" the `TSPSolver` by passing a `Consumer` callback. The solver reports its progress by invoking this callback, decoupling the algorit[...]
 
 Encapsulation: Critical logic, like the NFC counter, is encapsulated within the `AbstractTSPSolver` and can only be incremented through a protected helper method, ensuring data integrity.
 
                 The Project Structure
 
-.idea
-  ├──dictionaries
-  |        ├──project.xml
-  ├──.gitignore
-  ├──compiler.xml
-  ├──encodings.xml
-  ├──jarRepositories.xml
-  ├──misc.xml
-  ├──vcs.xml
-  ├──workspace.xml
-.mvn
-.vscode
-  ├──settings.json
-Developers
-  ├──Assignment 2 - Mark Allocation
-images
-  ├──image-1.png   # Image of Sub Menu
-  ├──image-2.png   # Genetic Algorithm's Graph
-  ├──image-3.png   # Dynamic Pogramming Graph
-  ├──image-4.png   # Benchmark Graph
-  ├──image.png     # Image of the Main Menu Display
+This section documents the repository layout and explains the purpose of each top-level folder and the most important files. The structure below follows common Maven conventions and highlights project-specific resources.
 
-src
-  ├── main
-  │   ├── java/org/example
-  │   │   ├── App.java               # Main entry point, CLI
-  │   │   ├── TSPSolver.java         # Solver interface
-  │   │   ├── AbstractTSPSolver.java # Base class for solvers
-  │   │   ├── TSPDP.java             # Dynamic Programming solver
-  │   │   ├── TSPGA.java             # Genetic Algorithm solver (with Strategy interfaces)
-  │   │   ├── TSPParser.java         # TSP file parsing logic
-  │   │   ├── BenchmarkRunner.java   # Runs the full benchmark suite
-  │   │   ├── EmpiricalTesting.java  # Compares algorithms on one file
-  │   │   ├── RealTimeChart.java     # Charting utility using JFreeChart
-  │   │   └── PrintResults.java      # DTO for printing solutions
-  │   └── resources
-  │       ├── burma14.tsp
-  │       └── testFile.atsp
-  │       ├── br17.tsp
-  │       └── ft53.atsp
-  │       ├── ftv33.tsp
-  │       └── ft70.atsp
-  └── test/org/example
-      ├── AppTest.java   # Unit tests
-target
-  ├──clasess
-      ├──org/example
-          ├──AbstractTSPSolver.class
-          ├──App.class
-          ├──BenchmarkRunner.class
-          ├──BenchmarkRunner$BenchmarkResult.class    # DTO for aggregated benchmark metrics
-          ├──BenchmarkRunner$BenchmarkTask.class
-          ├──BenchmarkRunner$BenchmarkTask$GA_Results.class
-          ├──EmpiricalTesting.class
-          ├──EmpiricalTesting$GAResult.class
-          ├──EmpiricalTesting$Stats.class
-          ├──PrintResults.class
-          ├──RealTimeChart.class
-          ├──RealTimeChart$1.class
-          ├──RealTimeChart$DataPoint.class    # DTO for Observer Pattern (Cost vs. NFC)
-          ├──TSPDP.class
-          ├──TSPGA.class
-          ├──TSPGA$CrossoverStrategy.class
-          ├──TSPGA$MutationStrategy.class
-          ├──TSPGA$OrderedCrossover.class     # Concrete Crossover Strategy (Strategy Pattern)
-          ├──TSPGA$SelectionStrategy.class
-          ├──TSPGA$SwapMutation.class
-          ├──TSPGA$TorunamentSelection.class
-          ├──TSPParser.class
-          ├──TSPParser$TSPInstance.class      # Data Transfer Object (DTO) for Problem Data
-          ├──TSPSolver.class
-      ├──br17.atsp
-      ├──burma14.tsp
-      ├──ft53.atsp
-      ├──ft70.atsp
-      ├──ftv33.atsp
-      ├──testFile.atsp
-  ├──test-classes/org/example
-      ├──AppTest.class    
-.gitignore
-pom.xml
-Readme.md
-Results.csv        # Holds the printed out results in matrix form
+Top-level layout (brief):
+
+- .mvn/            — Maven wrapper files (optional; keeps build consistent across machines).
+- .vscode/         — VS Code workspace settings (IDE convenience; ignored from build).
+- .idea/           — IntelliJ/IDEA project settings (IDE convenience; not required for build).
+- Developers/      — Assignment grading / developer notes (non-code resources).
+- images/          — Screenshots and charts used by this README and for documentation.
+- src/             — Source tree (main and test code and resources).
+- target/          — Build outputs (compiled classes, packaged artifacts). Do not edit — generated by Maven.
+- Results.csv      — Example output from benchmark runs.
+- pom.xml          — Maven project configuration (dependencies, build configuration).
+- Readme.md        — This file.
+
+Detailed src layout (Maven standard):
+
+- src/main/java/org/example/
+  - App.java               — Main entry point; CLI menu and program orchestration.
+  - TSPSolver.java         — Solver interface; public contract for all solver implementations.
+  - AbstractTSPSolver.java — Abstract base with shared utilities (NFC tracking, progress callbacks).
+  - TSPDP.java             — Dynamic Programming (Held–Karp) exact solver.
+  - TSPGA.java             — Genetic Algorithm implementation and strategy interfaces.
+  - TSPParser.java         — File parsing utility that detects TSPLIB and matrix formats.
+  - BenchmarkRunner.java   — Orchestrates full benchmark suite and parallel execution.
+  - EmpiricalTesting.java  — Runs repeated experiments (statistics collection) for a single instance.
+  - RealTimeChart.java     — Small wrapper that produces real-time charts (JFreeChart integration).
+  - PrintResults.java      — DTO / helper used to format and print results.
+
+- src/main/resources/
+  - burma14.tsp, br17.tsp, ftv33.tsp, ft53.atsp, ft70.atsp, testFile.atsp — example problem files used by the benchmark and by quick tests.
+
+- src/test/java/org/example/
+  - AppTest.java           — Unit tests (JUnit) covering core behaviours.
+
+Notes about build and outputs:
+
+- target/ contains compiled classes and packaged test resources after running `mvn package` or `mvn test`.
+- Do not commit build artifacts from `target/` to version control. They are included here only for completeness.
+
+IDE and development tips:
+
+- Import the project as a Maven project in IntelliJ IDEA or VS Code (use the Java and Maven extensions).
+- Use the Maven wrapper (`./mvnw` / `mvnw.cmd`) if present to ensure consistent Maven version.
+- Run unit tests with `mvn test` and build with `mvn clean package`.
+
+Packaging and resources:
+
+- Images used in the README and runtime charts are stored in `/images/` and referenced by relative paths.
+- Example TSP files live in `src/main/resources/` so they are packaged onto the classpath and can be loaded with `ClassLoader.getResourceAsStream(...)`.
+
+Checklist for contributors:
+
+- Keep the `src/main/java/org/example` package focused on algorithm and runner logic.
+- Add unit tests under `src/test/java` for any new behaviour.
+- Update README and `Results.csv` when adding new benchmark cases or changing output format.
+- Do not add large data files to the repository; if required, add them to `src/main/resources` or provide a script to download them.
+
 
                   Sample Images 
 
@@ -234,7 +209,7 @@ The `TSPParser` can automatically detect and parse the following formats:
 3. Simple Matrix Format: A custom format where the first line is the dimension `N`, followed by `N` lines of `N` space or comma-separated distance values.
 
                 Credits & References
-1. Dynamic Programming source - Tran, H.L. and Duong, M.P., 2024. Approach to Travelling Salesman Problem using Dynamic Programming and Branch-and-Bound technique. Research proposal. University of Technology Sydney. Available at: https://www.researchgate.net/publication/389855682 [Accessed 21 September 2025].
-2. Genetic Algorithm source - Li, H., 2025. Solving the TSP Problem Based on Improved Genetic Algorithm. Proceedings of the 5th International Conference on Signal Processing and Machine Learning. Harbin Engineering University. DOI: 10.54254/2755-2721/133/2025.20603.
+1. Dynamic Programming source - Tran, H.L. and Duong, M.P., 2024. Approach to Travelling Salesman Problem using Dynamic Programming and Branch-and-Bound technique. Research proposal. University o[...]
+2. Genetic Algorithm source - Li, H., 2025. Solving the TSP Problem Based on Improved Genetic Algorithm. Proceedings of the 5th International Conference on Signal Processing and Machine Learning.[...]
 3. Gemini - AI model by Google. Used as coding partner.
 4. GitHub Copilot - Plugin for VS Code. Used for generating methods.
